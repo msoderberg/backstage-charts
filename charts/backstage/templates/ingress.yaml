@@ -20,13 +20,11 @@ spec:
   {{- if .Values.ingress.className }}
   ingressClassName: {{ .Values.ingress.className | quote }}
   {{- end }}
-  {{- if or .Values.ingress.tls.enabled .Values.ingress.extraTls }}
+  {{- if .Values.ingress.tls.enabled }}
   tls:
-    {{- if .Values.ingress.tls.enabled }}
     - hosts:
       - {{ include "common.tplvalues.render" ( dict "value" .Values.ingress.host "context" $ ) }}
       secretName: {{ include "common.tplvalues.render" ( dict "value" .Values.ingress.tls.secretName "context" $ ) }}
-    {{- end }}
     {{- if .Values.ingress.extraTls }}
     {{- include "common.tplvalues.render" ( dict "value" .Values.ingress.extraTls "context" $ ) | nindent 4 }}
     {{- end }}
